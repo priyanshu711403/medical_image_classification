@@ -1,8 +1,17 @@
 import { useState, ChangeEvent, FormEvent } from "react";
+import axios from "axios";
 
-function ImageUpload({ imageType }: { imageType: string }) {
+function ImageUpload({
+   imageType,
+   onUploadComplete,
+   api,
+}: {
+   imageType: string;
+   onUploadComplete: (data: any) => void;
+   api: string;
+}) {
    const [image, setImage] = useState<File | null>(null);
-   const [status, setStatus] = useState<string>("");
+   const [status, setStatus] = useState<string>("Please select an image to upload.");
 
    const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
       if (e.target.files) {
@@ -18,18 +27,20 @@ function ImageUpload({ imageType }: { imageType: string }) {
       }
 
       const formData = new FormData();
-      formData.append("image", image);
+      formData.append("image", image); // Ensure "image" matches the backend
+      formData.append("imageType", imageType);
 
       try {
-         const response = await fetch("http://localhost:5000/upload", {
-            method: "POST",
-            body: formData,
-         });
-
-         const result = await response.json();
-         setStatus(result.message);
+         const response = await axios.post(api, formData);
+         const resultMessage = response.data; // Assuming the API returns { message: "some result" }
+         console.log(resultMessage);
+         setStatus("Image uploaded successfully");
+         onUploadComplete({ imageType, ...resultMessage });
       } catch (error) {
-         setStatus("Failed to upload image");
+         // console.log("error after axios");
+         const errorMessage = "Failed to upload image.";
+         setStatus(errorMessage);
+         onUploadComplete({ errorMessage });
          console.error("Error:", error);
       }
    };
@@ -37,18 +48,18 @@ function ImageUpload({ imageType }: { imageType: string }) {
    return (
       <div className="border rounded-md p-4">
          <h2 className="pb-3 text-2xl">Upload a {imageType} image</h2>
-         <form onSubmit={handleSubmit} className="grid grid-2 gap-4 ">
+         <form onSubmit={handleSubmit} className="grid grid-2 gap-4">
             <input
                type="file"
                accept="image/*"
                onChange={handleImageChange}
                className="col-span-1 mx-auto border rounded-lg"
             />
+            <p>{status}</p>
             <button type="submit" className="col-span-1 mx-auto px-4 py-2">
-               upload
+               Upload
             </button>
          </form>
-         <p>{status}</p>
       </div>
    );
 }
