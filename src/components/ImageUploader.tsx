@@ -1,5 +1,8 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 function ImageUpload({
    imageType,
@@ -27,17 +30,21 @@ function ImageUpload({
       }
 
       const formData = new FormData();
-      formData.append("image", image); // Ensure "image" matches the backend
+      formData.append("file", image); // Ensure "file" matches the backend
       formData.append("imageType", imageType);
 
       try {
-         const response = await axios.post(api, formData);
+         const response = await axios.post(api, formData, {
+            headers: {
+               "Content-Type": "multipart/form-data", // Ensure this is set correctly
+            },
+         });
+
          const resultMessage = response.data; // Assuming the API returns { message: "some result" }
          console.log(resultMessage);
          setStatus("Image uploaded successfully");
          onUploadComplete({ imageType, ...resultMessage });
       } catch (error) {
-         // console.log("error after axios");
          const errorMessage = "Failed to upload image.";
          setStatus(errorMessage);
          onUploadComplete({ errorMessage });
@@ -46,21 +53,39 @@ function ImageUpload({
    };
 
    return (
-      <div className="border rounded-md p-4">
-         <h2 className="pb-3 text-2xl">Upload a {imageType} image</h2>
-         <form onSubmit={handleSubmit} className="grid grid-2 gap-4">
-            <input
-               type="file"
-               accept="image/*"
-               onChange={handleImageChange}
-               className="col-span-1 mx-auto border rounded-lg"
-            />
-            <p>{status}</p>
-            <button type="submit" className="col-span-1 mx-auto px-4 py-2">
-               Upload
-            </button>
-         </form>
-      </div>
+      <Card className="bg-gray-50">
+         <CardHeader>
+            <CardTitle>Upload {imageType} Image</CardTitle>
+            {/* <CardDescription>Card Description</CardDescription> */}
+         </CardHeader>
+         <CardContent>
+            <form onSubmit={handleSubmit} className="grid grid-2 gap-4">
+               <Input
+                  id={imageType}
+                  type="file"
+                  className="border text-blue-600"
+                  accept="image/*"
+                  onChange={handleImageChange}
+               />
+               <p className="mt-3">{status}</p>
+               <Button type="submit" className="col-span-1 mx-auto px-4 mt-3 py-2 bg-blue-600">
+                  Upload
+               </Button>
+            </form>
+         </CardContent>
+      </Card>
+
+      // <div className="border rounded-md p-4 border">
+      //    <h2 className="pb-3 text-2xl font-semibold">Upload a {imageType} Image</h2>
+      //    <form onSubmit={handleSubmit} className="grid grid-2 gap-4">
+      //       {/* <label htmlFor={imageType}>{imageType}</label> */}
+      //       <Input id={imageType} type="file" className="border text-blue-600" />
+      //       <p>{status}</p>
+      //       <Button type="submit" className="col-span-1 mx-auto px-4 py-2">
+      //          Upload
+      //       </Button>
+      //    </form>
+      // </div>
    );
 }
 

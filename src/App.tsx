@@ -15,11 +15,11 @@ function App() {
    return (
       <div>
          <div className="flex gap-4 mx-auto -mt-20">
-            <ImageUpload imageType="MRI" onUploadComplete={handleResult} api="http://localhost:3000/upload" />
-            <ImageUpload imageType="PET" onUploadComplete={handleResult} api="http://localhost:3000/upload" />
-            <ImageUpload imageType="X-RAY" onUploadComplete={handleResult} api="http://localhost:3000/upload" />
+            <ImageUpload imageType="MRI" onUploadComplete={handleResult} api="http://127.0.0.1:8000/predict/mri" />
+            <ImageUpload imageType="CT" onUploadComplete={handleResult} api="http://127.0.0.1:8000/predict/ct" />
+            <ImageUpload imageType="X-RAY" onUploadComplete={handleResult} api="http://127.0.0.1:8000/predict/xray" />
          </div>
-         <div className="items-start mt-6 border-t pt-4 text-left">
+         <div className="items-start mt-6 border-t border-blue-700 pt-4 text-left">
             <h2 className="text-xl font-bold">Results</h2>
             {Object.entries(results).map(([key, value]) => (
                <p key={key}>
