@@ -74,12 +74,12 @@ function ImageUpload({
             </form>
          </CardContent>
       </Card>
-
-      // <div className="border rounded-md p-4 border">
+      // if above doesnt work use it instead
+      // <div className="border-black rounded-md p-4 border">
       //    <h2 className="pb-3 text-2xl font-semibold">Upload a {imageType} Image</h2>
       //    <form onSubmit={handleSubmit} className="grid grid-2 gap-4">
       //       {/* <label htmlFor={imageType}>{imageType}</label> */}
-      //       <Input id={imageType} type="file" className="border text-blue-600" />
+      //       <Input id={imageType} type="file" className="border-gray-400 text-blue-600" />
       //       <p>{status}</p>
       //       <Button type="submit" className="col-span-1 mx-auto px-4 py-2">
       //          Upload
