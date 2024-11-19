@@ -55,7 +55,7 @@ function ImageUpload({
    return (
       <Card className="bg-gray-50">
          <CardHeader>
-            <CardTitle>Upload {imageType} Image</CardTitle>
+            <CardTitle>Upload {imageType}</CardTitle>
             {/* <CardDescription>Card Description</CardDescription> */}
          </CardHeader>
          <CardContent>
@@ -76,7 +76,7 @@ function ImageUpload({
       </Card>
       // if above doesnt work use it instead
       // <div className="border-black rounded-md p-4 border">
-      //    <h2 className="pb-3 text-2xl font-semibold">Upload a {imageType} Image</h2>
+      //    <h2 className="pb-3 text-2xl font-semibold">Upload {imageType} </h2>
       //    <form onSubmit={handleSubmit} className="grid grid-2 gap-4">
       //       {/* <label htmlFor={imageType}>{imageType}</label> */}
       //       <Input id={imageType} type="file" className="border-gray-400 text-blue-600" />
