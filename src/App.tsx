@@ -14,7 +14,8 @@ function App() {
 
    return (
       <div>
-         <div className="flex gap-4 mx-auto -mt-20">
+         <h1 className="-mt-25 font-semibold text-blue-950">Medical Image Classification</h1>
+         <div className="flex gap-4 mx-auto mt-10 ">
             <ImageUpload
                imageType="Brain MRI Scan"
                onUploadComplete={handleResult}
